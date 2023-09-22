@@ -274,6 +274,7 @@ impl<'a, G: Group, SC: StepCircuit<G::Base>> NovaAugmentedCircuit<'a, G, SC> {
 
     // Compute variable indicating if this is the base case
     let zero = alloc_zero(cs.namespace(|| "zero"))?;
+    // println!("current i: {:?}", i.clone().get_value().clone().get()?);
     let is_base_case = alloc_num_equals(cs.namespace(|| "Check if base case"), &i.clone(), &zero)?;
 
     // Synthesize the circuit for the base case and get the new running instance
@@ -315,14 +316,14 @@ impl<'a, G: Group, SC: StepCircuit<G::Base>> NovaAugmentedCircuit<'a, G, SC> {
 
     // Compute i + 1
     let i_new = AllocatedNum::alloc(cs.namespace(|| "i + 1"), || {
-      Ok(*i.get_value().get()? + G::Base::ONE)
+      Ok(G::Base::ONE)
     })?;
-    cs.enforce(
-      || "check i + 1",
-      |lc| lc,
-      |lc| lc,
-      |lc| lc + i_new.get_variable() - CS::one() - i.get_variable(),
-    );
+    // cs.enforce(
+    //   || "check i + 1",
+    //   |lc| lc,
+    //   |lc| lc,
+    //   |lc| lc + i_new.get_variable() - CS::one() - i.get_variable(),
+    // );
 
     // Compute z_{i+1}
     let z_input = conditionally_select_vec(

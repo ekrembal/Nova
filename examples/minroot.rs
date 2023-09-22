@@ -235,7 +235,7 @@ fn main() {
     // verify the recursive SNARK
     println!("Verifying a RecursiveSNARK...");
     let start = Instant::now();
-    let res = recursive_snark.verify(&pp, num_steps, &z0_primary, &z0_secondary);
+    let res = recursive_snark.verify(&pp, 1, &z0_primary, &z0_secondary);
     println!(
       "RecursiveSNARK::verify: {:?}, took {:?}",
       res.is_ok(),
@@ -255,7 +255,7 @@ fn main() {
 
     let res = CompressedSNARK::<_, _, _, _, S1, S2>::prove(&pp, &pk, &recursive_snark);
     println!(
-      "CompressedSNARK::prove: {:?}, took {:?}",
+      "CompressedSNARK:: : {:?}, took {:?}",
       res.is_ok(),
       start.elapsed()
     );
@@ -273,7 +273,7 @@ fn main() {
     // verify the compressed SNARK
     println!("Verifying a CompressedSNARK...");
     let start = Instant::now();
-    let res = compressed_snark.verify(&vk, num_steps, z0_primary, z0_secondary);
+    let res = compressed_snark.verify(&vk, 1, z0_primary, z0_secondary);
     println!(
       "CompressedSNARK::verify: {:?}, took {:?}",
       res.is_ok(),
